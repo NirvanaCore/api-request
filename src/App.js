@@ -6,13 +6,14 @@ import axios from 'axios';
 
 class App extends Component {
   state = {
-    persons: [],
+    loading:true,
+    persons: null,
   };
 
   componentDidMount() {
     axios.get('https://randomuser.me/api').then((res) => {
       const persons = res.data.results[0];
-      this.setState({ persons });
+      this.setState({ persons ,loading:false });
     });
   }
 
@@ -20,7 +21,8 @@ class App extends Component {
     return (
       <div className='App'>
         <Header />
-        <Users users={this.state.persons}/>
+        {this.state.loading || !this.state.persons ? <h1>Loading ...</h1> :
+        <Users users={this.state.persons}/>}
       </div>
     );
   }
